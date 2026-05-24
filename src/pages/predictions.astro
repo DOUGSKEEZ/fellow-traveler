@@ -1,19 +1,31 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Placeholder from '../components/Placeholder.astro';
+import ClaimCard from '../components/ClaimCard.astro';
 import { href } from '../lib/site';
+import { getClaims, getPredictions, resolveDeps } from '../lib/claims';
+
+const all = await getClaims();
+const predictions = getPredictions(all);
 ---
 
-<BaseLayout title="Predictions" narrow description="Empirical tests the framework must pass — falsifiable predictions about un-selected co-effects. (Planned section.)">
+<BaseLayout title="Predictions" narrow description="Empirical tests the framework must pass — falsifiable predictions about un-selected co-effects, checked against data and never proven.">
   <header class="mb-8">
     <p class="eyebrow mb-2">Framework · Predictions</p>
     <h1 class="font-serif text-3xl text-[var(--color-ink)]">Predictions</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      A distinct epistemic type from <a href={href('/derivations')}>Derivations</a>: a derivation
+      follows from the axioms by argument; a prediction is checked against data. They sit side by
+      side, not nested, precisely to keep that distinction — a prediction is confirmed or
+      disconfirmed, never proven. Each entry states a falsifiable test sharply enough that it could
+      lose, and says how.
+    </p>
   </header>
-  <Placeholder
-    role="This section will hold the empirical tests the framework must pass — its falsifiable predictions about un-selected co-effects (for instance, that the positive manifold should tighten among extreme performers, and that extreme ability should bundle with traits that g-research never selects on)."
-    note="A distinct epistemic type from Derivations: a derivation follows from the axioms by argument; a prediction is checked against data. They sit side by side, not nested, precisely to keep that distinction. The predictions sketched so far live inside the Research Program."
-  />
-  <p class="ui text-sm text-[var(--color-muted)] mt-5">
-    See the predictions named in the <a href={href('/research-program')}>Research Program</a>.
-  </p>
+
+  {predictions.length === 0 ? (
+    <p class="ui text-sm text-[var(--color-faint)]">No predictions authored yet.</p>
+  ) : (
+    <div class="flex flex-col gap-4">
+      {predictions.map((c) => <ClaimCard claim={c} restsOn={resolveDeps(c, all)} />)}
+    </div>
+  )}
 </BaseLayout>

@@ -18,6 +18,7 @@ const LAYERS = [
   'demarcation',
   'derived',
   'provisional',
+  'prediction',
   'open-gap',
   'application',
   'perspective',
