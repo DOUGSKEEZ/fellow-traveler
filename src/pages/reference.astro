@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimSection from '../components/ClaimSection.astro';
+import { href } from '../lib/site';
+import { getClaims, LAYER_META } from '../lib/claims';
+
+const all = await getClaims();
+// All reference-layer entries except the research program (which lives in Program & Frontiers).
+const entries = all
+  .filter((c) => c.data.layer === 'reference' && c.data.slug !== 'research-program')
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Reference & Primer" narrow description="Background prior art the Fellow Traveler Hypothesis borrows — established statistics, named honestly and kept subordinate to the claims.">
+  <header class="mb-8">
+    <p class="eyebrow mb-2">Background, not claims</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Reference &amp; Primer</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      {LAYER_META.reference.blurb} These are textbook concepts, credited fully and kept
+      <em>subordinate</em>: they carry no claim glyph and wear a dashed
+      <span class="mono text-xs">Background</span> tag, so the line between established statistics and
+      this theory's own contributions is never blurred.
+    </p>
+    <nav class="mt-5 ui text-sm flex flex-col gap-1.5" aria-label="Reference contents">
+      {entries.map((c) => (
+        <a href={href(`/reference#${c.data.slug}`)} class="text-[var(--color-muted)]">→ {c.data.title}</a>
+      ))}
+    </nav>
+  </header>
+
+  <div class="flex flex-col gap-12">
+    {entries.map((c, i) => (
+      <>
+        {i > 0 && <hr class="border-[var(--color-rule)]" />}
+        <ClaimSection claim={c} flat />
+      </>
+    ))}
+  </div>
+</BaseLayout>

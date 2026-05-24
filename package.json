@@ -1,0 +1,23 @@
+{
+  "name": "fellow-traveler",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static site for the Fellow Traveler Hypothesis — content/ is the single source of truth; Astro is a pure renderer.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "clean": "rm -rf .astro dist node_modules/.vite",
+    "restart": "npm run clean && npm run dev",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "katex": "^0.16.11",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "tailwindcss": "^4.1.18"
+  }
+}

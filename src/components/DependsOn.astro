@@ -1,0 +1,23 @@
+---
+import { claimUrl, resolveDeps, glyphFor, type Claim } from '../lib/claims';
+
+interface Props {
+  claim: Claim;
+  all: Claim[];
+}
+const { claim, all } = Astro.props;
+const deps = resolveDeps(claim, all);
+---
+
+{deps.length > 0 && (
+  <div class="ui text-sm flex flex-wrap items-center gap-x-2 gap-y-1.5 mb-6">
+    <span class="eyebrow">Depends on</span>
+    {deps.map((d, i) => (
+      <span class="inline-flex items-center gap-1.5">
+        {i > 0 && <span class="text-[var(--color-faint)]">·</span>}
+        <span class={`glyph-${glyphFor(d).key}`}>{glyphFor(d).ch}</span>
+        <a href={claimUrl(d)} class="text-[var(--color-muted)]">{d.data.title}</a>
+      </span>
+    ))}
+  </div>
+)}

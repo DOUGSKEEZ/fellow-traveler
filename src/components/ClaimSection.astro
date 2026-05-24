@@ -1,0 +1,28 @@
+---
+import { render } from 'astro:content';
+import ClaimMarker from './ClaimMarker.astro';
+import { STATUS_META, LAYER_META, isReference, type Claim } from '../lib/claims';
+
+interface Props {
+  claim: Claim;
+  /** Heading level for the section title. h2 on composed pages (page owns the h1). */
+  as?: 'h1' | 'h2';
+  /** Suppress the Overview scaffold (used for reference/background sections). */
+  flat?: boolean;
+}
+const { claim, as = 'h2', flat = false } = Astro.props;
+const { Content } = await render(claim);
+const data = claim.data;
+const meta = STATUS_META[data.status];
+const ref = isReference(claim);
+const Heading = as;
+---
+
+<section id={data.slug} class="scroll-mt-24">
+  <div class="flex items-center gap-2.5 flex-wrap">
+    <ClaimMarker claim={claim} />
+    <span class="eyebrow">{ref ? 'Background / Reference' : `${LAYER_META[data.layer].label} · ${meta.label}`}</span>
+  </div>
+  <Heading class="font-serif text-2xl sm:text-[1.7rem] leading-tight mt-2 text-[var(--color-ink)]">{data.title}</Heading>
+  <div class={`prose mt-4 ${flat ? 'prose-flat' : ''}`}><Content /></div>
+</section>

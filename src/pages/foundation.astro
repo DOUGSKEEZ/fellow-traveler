@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimCard from '../components/ClaimCard.astro';
+import FramingNote from '../components/FramingNote.astro';
+import { href } from '../lib/site';
+import { getClaims, resolveDeps } from '../lib/claims';
+
+const all = await getClaims();
+// The three axioms (the central premise is the thesis, on its own page).
+const axioms = all
+  .filter((c) => c.data.layer === 'axiom' && c.data.slug !== 'central-premise')
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Foundation" narrow description="The three axioms that support the central premise of the Fellow Traveler Hypothesis.">
+  <header class="mb-6">
+    <p class="eyebrow mb-2">Framework · Foundation</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Foundation</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      The three axioms that support the <a href={href('/central-premise')}>central premise</a>. Each is
+      posited, not derived — together they are what every later claim is built on. Open any one for its
+      statement and what it commits you to.
+    </p>
+  </header>
+
+  <FramingNote framing="axiom" />
+
+  <div class="flex flex-col gap-4 mt-8">
+    {axioms.map((c) => <ClaimCard claim={c} restsOn={resolveDeps(c, all)} />)}
+  </div>
+</BaseLayout>

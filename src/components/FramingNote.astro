@@ -1,0 +1,13 @@
+---
+import { TYPE_FRAMING } from '../lib/claims';
+
+interface Props {
+  framing: keyof typeof TYPE_FRAMING;
+}
+const { framing } = Astro.props;
+const f = TYPE_FRAMING[framing];
+---
+
+<p class="ui text-sm text-[var(--color-muted)] leading-relaxed border-l-2 border-[var(--color-rule-strong)] pl-4 py-1">
+  <span class="font-semibold text-[var(--color-ink)]">{f.kind}.</span> {f.note}
+</p>

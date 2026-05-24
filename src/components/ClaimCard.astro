@@ -1,0 +1,52 @@
+---
+import { isReference, claimUrl, glyphFor, type Claim } from '../lib/claims';
+import ClaimMarker from './ClaimMarker.astro';
+
+interface Props {
+  claim: Claim;
+  /** Show the layer label in the card meta line (used on cross-layer lists). */
+  showLayer?: boolean;
+  /** Show resolved "rests on" parents (used on the Derivations workbench). */
+  restsOn?: Claim[];
+}
+const { claim, showLayer = false, restsOn } = Astro.props;
+const ref = isReference(claim);
+const url = claimUrl(claim);
+const parents = restsOn ?? null;
+const depCount = claim.data.depends_on.length;
+---
+
+<a
+  href={url}
+  class={`group block rounded-[10px] p-4 sm:p-5 hover:no-underline transition-colors ${
+    ref ? 'card-reference hover:bg-[#efeadf]' : 'card hover:border-[var(--color-rule-strong)]'
+  }`}
+>
+  <div class="flex items-start gap-3">
+    <div class="pt-0.5"><ClaimMarker claim={claim} /></div>
+    <div class="min-w-0 flex-1">
+      <h3 class="font-serif text-[1.05rem] leading-snug text-[var(--color-ink)] group-hover:text-[var(--color-accent)]">
+        {claim.data.title}
+      </h3>
+      <p class="mt-1.5 text-[0.92rem] leading-relaxed text-[var(--color-muted)]">{claim.data.summary}</p>
+      {parents && parents.length > 0 && (
+        <p class="ui text-xs text-[var(--color-faint)] mt-2.5">
+          <span class="uppercase tracking-wider">rests on</span>{' '}
+          {parents.map((p, i) => (
+            <span>
+              {i > 0 && ', '}
+              <span class={`glyph-${glyphFor(p).key}`}>{glyphFor(p).ch}</span>
+              {' '}{p.data.title}
+            </span>
+          ))}
+        </p>
+      )}
+      {!parents && (
+        <div class="mt-2.5 flex items-center gap-3 ui text-[0.7rem] uppercase tracking-wider text-[var(--color-faint)]">
+          {showLayer && <span>{claim.data.layer.replace('-', ' ')}</span>}
+          {depCount > 0 && <span>{depCount} {depCount === 1 ? 'dependency' : 'dependencies'}</span>}
+        </div>
+      )}
+    </div>
+  </div>
+</a>

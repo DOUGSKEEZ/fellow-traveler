@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { href } from '../lib/site';
+import { STATUS_META, CLAIM_STATUS_ORDER } from '../lib/claims';
+---
+
+<BaseLayout title="Note to Researchers" narrow description="How to read this site, what the status glyphs mean, and how to contribute a claim.">
+  <header class="mb-8">
+    <p class="eyebrow mb-2">Orientation</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Note to Researchers</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      This site is built for two readers at once: a visitor who wants the phenomenon in plain language,
+      and a researcher who wants a workbench of discrete, improvable claims. Here is how to read it, and
+      how to add to it.
+    </p>
+  </header>
+
+  <div class="prose">
+    <h2>The single rule that makes this trustworthy</h2>
+    <p>
+      Every claim wears a status, and that status is rendered straight from the file — never upgraded to
+      make the work look more finished. An <em>open</em> gap is marked as openly as a <em>derived</em>
+      result. The visible humility is the point: you can trust the green marks because the grey ones are
+      not hidden.
+    </p>
+
+    <h2>The status glyphs</h2>
+    <ul>
+      {CLAIM_STATUS_ORDER.map((s) => (
+        <li>
+          <span class={`glyph-${STATUS_META[s].key}`}>{STATUS_META[s].glyph}</span>
+          {' '}<strong>{STATUS_META[s].label}</strong> — {STATUS_META[s].blurb}
+        </li>
+      ))}
+      <li>
+        <span class="mono text-xs border border-dashed border-[var(--color-rule-strong)] rounded px-1.5 py-0.5">Background</span>
+        {' '}<strong>Reference</strong> — {STATUS_META.reference.blurb} It carries no claim glyph, by design.
+      </li>
+    </ul>
+    <p>
+      A status is promoted only when an actual argument earns it, and that argument is written into the
+      claim itself. Promotion is never cosmetic.
+    </p>
+
+    <h2>Two ways through the site</h2>
+    <ul>
+      <li><strong>As a reader:</strong> start with <a href={href('/guide')}>the Guide</a>, a narrative
+        reading order from premise to predictions. The <a href={href('/foundation')}>Foundation</a> and
+        <a href={href('/demarcation')}>Demarcation</a> sections carry the axioms and the criteria.</li>
+      <li><strong>As a researcher:</strong> the <a href={href('/derivations')}>Derivations</a> workbench
+        lists every result as a self-contained target; the <a href={href('/derivation-chain')}>derivation
+        chain</a> shows how they hang together; the <a href={href('/open-gaps')}>open gaps</a> page is the
+        honest to-do list.</li>
+    </ul>
+
+    <h2>How to contribute a claim</h2>
+    <p>
+      Claims live as Markdown files under <span class="mono">content/</span> — the single source of truth.
+      The site is a pure renderer: add a file with honest frontmatter and the index, the chain, the open-gaps
+      page, and the dependency relationships all update on the next build. Nothing else to wire up.
+    </p>
+    <ol>
+      <li>Create <span class="mono">content/&lt;layer&gt;/your-claim.md</span> with the frontmatter
+        fields <span class="mono">title, slug, layer, status, summary, depends_on, order, updated</span>
+        (the schema is enforced at build).</li>
+      <li>Set <span class="mono">depends_on</span> to the slugs it rests on — that draws the chain and the
+        “rests on / supports” footers automatically.</li>
+      <li>Record the reasoning in <span class="mono">transcripts/</span> and link it with a
+        <span class="mono">provenance:</span> path; it surfaces on the claim's page.</li>
+      <li>Mark the status honestly. If it's a target rather than a result, that's what
+        <span class="mono">status: open</span> or <span class="mono">provisional</span> is for.</li>
+    </ol>
+    <p>The full loop, including how to run the site locally, is in <span class="mono">WORKFLOW.md</span> at the repo root.</p>
+  </div>
+</BaseLayout>

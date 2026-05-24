@@ -1,0 +1,159 @@
+---
+import { href, SITE } from '../lib/site';
+import { getClaims, getDerivationUnits, glyphFor, type Claim } from '../lib/claims';
+
+type Item = { label: string; path: string; anchor?: boolean; glyph?: { ch: string; key: string } };
+type Sub = { heading: string; headingPath?: string; items: Item[] };
+type Group = { heading: string; headingPath?: string; items?: Item[]; subs?: Sub[] };
+
+const all = await getClaims();
+const entryItems = (claims: Claim[], to: (c: Claim) => string, anchor = false): Item[] =>
+  claims.map((c) => ({ label: c.data.title, path: to(c), anchor, glyph: glyphFor(c) }));
+
+const foundations = all
+  .filter((c) => c.data.layer === 'axiom' && c.data.slug !== 'central-premise')
+  .sort((a, b) => a.data.order - b.data.order);
+const demarcation = all.filter((c) => c.data.layer === 'demarcation').sort((a, b) => a.data.order - b.data.order);
+const derivations = getDerivationUnits(all);
+const domains = all.filter((c) => c.data.layer === 'application').sort((a, b) => a.data.order - b.data.order);
+
+const groups: Group[] = [
+  {
+    heading: 'Orientation',
+    items: [
+      { label: 'Home', path: '/' },
+      { label: 'Motivation', path: '/motivation' },
+      { label: 'Seen in the Wild', path: '/seen-in-the-wild' },
+      { label: 'Technical Summary', path: '/technical-summary' },
+      { label: 'The Central Premise', path: '/central-premise' },
+      { label: 'Note to Researchers', path: '/note-to-researchers' },
+    ],
+  },
+  {
+    heading: 'Guide',
+    items: [
+      { label: 'The Guide', path: '/guide' },
+      { label: 'Derivation Chain', path: '/derivation-chain' },
+    ],
+  },
+  {
+    // The framework proper. Empirical work (Predictions) and ties to prior art (Connections) sit
+    // beside Derivations precisely to keep them as distinct epistemic types — never folded into
+    // a single "Results" heading.
+    heading: 'Framework',
+    subs: [
+      { heading: 'Foundation', headingPath: '/foundation', items: entryItems(foundations, (c) => `/foundation/${c.data.slug}`) },
+      { heading: 'Demarcation', headingPath: '/demarcation', items: entryItems(demarcation, (c) => `/demarcation/${c.data.slug}`) },
+      { heading: 'Derivations', headingPath: '/derivations', items: entryItems(derivations, (c) => `/derivations/${c.data.slug}`) },
+      { heading: 'Predictions', headingPath: '/predictions', items: [] },
+      { heading: 'Connections', headingPath: '/connections', items: [] },
+    ],
+  },
+  {
+    heading: 'Domains',
+    headingPath: '/domains',
+    items: entryItems(domains, (c) => `/domains#${c.data.slug}`, true),
+  },
+  {
+    heading: 'Reference',
+    items: [{ label: 'Primer & Glossary', path: '/reference' }],
+  },
+  {
+    heading: 'Program & Frontiers',
+    items: [
+      { label: 'Research Program', path: '/research-program' },
+      { label: 'Open Gaps', path: '/open-gaps' },
+      { label: 'Explorations', path: '/explorations' },
+    ],
+  },
+];
+
+const current = Astro.url.pathname.replace(/\/+$/, '');
+const pathOf = (p: string) => href(p.split('#')[0]).replace(/\/+$/, '');
+const isActive = (item: Item) => !item.anchor && pathOf(item.path) === current;
+const linkActive = (p?: string) => !!p && pathOf(p) === current;
+---
+
+<nav class="ui text-sm" aria-label="Site sections">
+  <a href={href('/')} class="flex items-center gap-2 font-semibold tracking-tight text-[var(--color-ink)] hover:no-underline mb-6">
+    <span class="text-[var(--color-accent)] text-lg leading-none">◆</span>
+    <span>{SITE.title.replace('The ', '')}</span>
+  </a>
+
+  <div class="flex flex-col gap-6">
+    {groups.map((g) => (
+      <div>
+        {g.headingPath ? (
+          <a
+            href={href(g.headingPath)}
+            aria-current={linkActive(g.headingPath) ? 'page' : undefined}
+            class={`block eyebrow mb-2 hover:text-[var(--color-accent)] hover:no-underline ${linkActive(g.headingPath) ? 'text-[var(--color-accent)]' : ''}`}
+          >{g.heading}</a>
+        ) : (
+          <p class="eyebrow mb-2">{g.heading}</p>
+        )}
+
+        {g.items && (
+          <ul class="flex flex-col gap-0.5">
+            {g.items.map((item) => (
+              <li>
+                <a
+                  href={href(item.path)}
+                  aria-current={isActive(item) ? 'page' : undefined}
+                  class={`flex items-center gap-2 rounded-md px-2.5 py-1.5 leading-snug hover:no-underline hover:bg-[var(--color-surface-alt)] ${
+                    isActive(item)
+                      ? 'bg-[var(--color-surface-alt)] text-[var(--color-ink)] font-semibold'
+                      : item.anchor ? 'text-[var(--color-faint)]' : 'text-[var(--color-muted)]'
+                  }`}
+                >
+                  {item.glyph && <span class={`glyph-${item.glyph.key} text-sm leading-none w-3 text-center`}>{item.glyph.ch}</span>}
+                  <span class="min-w-0">{item.label}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {g.subs && (
+          <div class="flex flex-col gap-3.5">
+            {g.subs.map((sub) => (
+              <div>
+                {sub.headingPath ? (
+                  <a
+                    href={href(sub.headingPath)}
+                    aria-current={linkActive(sub.headingPath) ? 'page' : undefined}
+                    class={`flex items-center gap-2 px-2.5 py-1 rounded-md font-semibold hover:no-underline hover:bg-[var(--color-surface-alt)] ${
+                      linkActive(sub.headingPath) ? 'text-[var(--color-accent)]' : 'text-[var(--color-ink)]'
+                    }`}
+                  >{sub.heading}</a>
+                ) : (
+                  <p class="px-2.5 py-1 font-semibold text-[var(--color-ink)]">{sub.heading}</p>
+                )}
+                {sub.items.length > 0 && (
+                  <ul class="flex flex-col gap-0.5 mt-0.5 ml-2.5 border-l border-[var(--color-rule)] pl-2">
+                    {sub.items.map((item) => (
+                      <li>
+                        <a
+                          href={href(item.path)}
+                          aria-current={isActive(item) ? 'page' : undefined}
+                          class={`flex items-center gap-2 rounded-md px-2 py-1 leading-snug hover:no-underline hover:bg-[var(--color-surface-alt)] ${
+                            isActive(item)
+                              ? 'bg-[var(--color-surface-alt)] text-[var(--color-ink)] font-semibold'
+                              : item.anchor ? 'text-[var(--color-faint)]' : 'text-[var(--color-muted)]'
+                          }`}
+                        >
+                          {item.glyph && <span class={`glyph-${item.glyph.key} text-sm leading-none w-3 text-center`}>{item.glyph.ch}</span>}
+                          <span class="min-w-0 text-[0.82rem]">{item.label}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</nav>

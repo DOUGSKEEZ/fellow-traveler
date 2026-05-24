@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { href } from '../lib/site';
+---
+
+<BaseLayout title="Connections" narrow description="How the framework's claims connect to established statistics — the explicit bridges to prior art. (Planned section.)">
+  <header class="mb-8">
+    <p class="eyebrow mb-2">Framework · Connections</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Connections</h1>
+  </header>
+  <Placeholder
+    role="This section will map the framework's claims onto established statistics — the explicit bridges to Berkson's paradox and collider bias, to copulas and tail dependence, and to the positive manifold and g."
+    note="Distinct from the Reference primer: the primer explains the prior art as background; a Connection is a claim about how FTH relates to and departs from it. Until these are written, the background itself is on the Reference page."
+  />
+  <p class="ui text-sm text-[var(--color-muted)] mt-5">
+    See the background prior art on the <a href={href('/reference')}>Reference &amp; Primer</a> page.
+  </p>
+</BaseLayout>

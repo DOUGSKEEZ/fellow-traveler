@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import DerivationChain from '../components/DerivationChain.astro';
+import { href } from '../lib/site';
+import { getClaims, getChainClaims, STATUS_META, CLAIM_STATUS_ORDER } from '../lib/claims';
+
+const all = await getClaims();
+const chain = getChainClaims(all);
+---
+
+<BaseLayout title="Derivation Chain" narrow description="The argument as a linear spine — every claim in dependency order, premise to predictions, with its status and what it rests on.">
+  <header class="mb-8">
+    <p class="eyebrow mb-2">The shape of the argument</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Derivation Chain</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      The structural counterpart to the <a href={href('/guide')}>narrative Guide</a>: every claim that
+      carries a dependency, in order, premise to predictions. It reads top to bottom like the argument
+      it is. Built entirely from each file's <span class="mono text-sm">depends_on</span> — rewire a
+      file and this redraws on the next build.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 ui text-sm">
+      <span class="inline-flex items-center gap-1.5">
+        <span class="glyph-thesis text-base leading-none">◎</span>
+        <span class="text-[var(--color-muted)]">Thesis</span>
+      </span>
+      {CLAIM_STATUS_ORDER.map((s) => (
+        <span class="inline-flex items-center gap-1.5">
+          <span class={`glyph-${STATUS_META[s].key} text-base leading-none`}>{STATUS_META[s].glyph}</span>
+          <span class="text-[var(--color-muted)]">{STATUS_META[s].label}</span>
+        </span>
+      ))}
+      <span class="inline-flex items-center gap-1.5 text-[var(--color-faint)]">
+        <span class="glyph-reference text-base leading-none">◇</span><span>Background</span>
+      </span>
+    </div>
+  </header>
+
+  <DerivationChain claims={chain} all={all} />
+</BaseLayout>

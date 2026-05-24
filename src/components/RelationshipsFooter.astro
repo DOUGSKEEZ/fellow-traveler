@@ -1,0 +1,78 @@
+---
+import { claimUrl, glyphFor, type Claim } from '../lib/claims';
+
+interface Props {
+  /** The claim(s) rendered on this page. Relationships pointing within the page are hidden; only
+   *  links that leave the page are shown, so navigation stays useful without restating the
+   *  on-page reading order. */
+  claims: Claim[];
+  all: Claim[];
+  /** Hide the "Rests on" column (used on derivation pages, which carry a Depends-On block up top). */
+  hideRestsOn?: boolean;
+}
+const { claims, all, hideRestsOn = false } = Astro.props;
+const pageSlugs = new Set(claims.map((c) => c.data.slug));
+const bySlug = new Map(all.map((c) => [c.data.slug, c]));
+
+const restsOnMap = new Map<string, Claim>();
+for (const c of claims) {
+  for (const dep of c.data.depends_on) {
+    if (!pageSlugs.has(dep) && bySlug.has(dep)) restsOnMap.set(dep, bySlug.get(dep)!);
+  }
+}
+const supportsMap = new Map<string, Claim>();
+for (const c of all) {
+  if (pageSlugs.has(c.data.slug)) continue;
+  if (c.data.depends_on.some((s) => pageSlugs.has(s))) supportsMap.set(c.data.slug, c);
+}
+const restsOn = [...restsOnMap.values()];
+const supports = [...supportsMap.values()];
+
+function row(c: Claim) {
+  const g = glyphFor(c);
+  return { url: claimUrl(c), title: c.data.title, glyph: g.ch, key: g.key };
+}
+---
+
+{(hideRestsOn || restsOn.length > 0 || supports.length > 0) && (
+  <footer class={`mt-12 pt-6 border-t border-[var(--color-rule)] grid grid-cols-1 gap-6 ui text-sm ${hideRestsOn ? '' : 'sm:grid-cols-2'}`}>
+    {!hideRestsOn && (
+    <div>
+      <h2 class="eyebrow mb-2.5">Rests on</h2>
+      {restsOn.length === 0 ? (
+        <p class="text-[var(--color-faint)]">Nothing else — foundational here.</p>
+      ) : (
+        <ul class="flex flex-col gap-2">
+          {restsOn.map((c) => {
+            const r = row(c);
+            return (
+              <li class="flex items-start gap-2">
+                <span class={`glyph-${r.key} leading-tight`}>{r.glyph}</span>
+                <a href={r.url} class="leading-snug">{r.title}</a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+    )}
+    <div>
+      <h2 class="eyebrow mb-2.5">Supports</h2>
+      {supports.length === 0 ? (
+        <p class="text-[var(--color-faint)]">Nothing yet builds on this.</p>
+      ) : (
+        <ul class="flex flex-col gap-2">
+          {supports.map((c) => {
+            const r = row(c);
+            return (
+              <li class="flex items-start gap-2">
+                <span class={`glyph-${r.key} leading-tight`}>{r.glyph}</span>
+                <a href={r.url} class="leading-snug">{r.title}</a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  </footer>
+)}

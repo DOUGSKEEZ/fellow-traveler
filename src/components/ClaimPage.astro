@@ -1,0 +1,60 @@
+---
+import { render } from 'astro:content';
+import ClaimMarker from './ClaimMarker.astro';
+import FramingNote from './FramingNote.astro';
+import DependsOn from './DependsOn.astro';
+import RelationshipsFooter from './RelationshipsFooter.astro';
+import { href } from '../lib/site';
+import { sectionOf, framingKey, TYPE_FRAMING, STATUS_META, type Claim } from '../lib/claims';
+
+interface Props {
+  claim: Claim;
+  all: Claim[];
+}
+const { claim, all } = Astro.props;
+const { Content } = await render(claim);
+const data = claim.data;
+const meta = STATUS_META[data.status];
+const section = sectionOf(claim);
+const framing = framingKey(claim);
+const isDerivation = framing === 'derivation';
+
+const provenance = data.provenance
+  ? Array.isArray(data.provenance) ? data.provenance : [data.provenance]
+  : [];
+const updated = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(data.updated);
+---
+
+<div class="ui text-sm text-[var(--color-faint)] mb-5">
+  {section && (
+    <>
+      <a href={href(section.path)} class="hover:text-[var(--color-accent)]">{section.label}</a>
+      <span class="mx-1.5">/</span>
+    </>
+  )}
+  <span>{TYPE_FRAMING[framing].kind}</span>
+</div>
+
+<header class="mb-6">
+  <p class="eyebrow mb-2">Framework · {section?.label ?? TYPE_FRAMING[framing].kind}</p>
+  <div class="flex items-center gap-2.5">
+    <ClaimMarker claim={claim} size="lg" />
+    <span class="eyebrow">{meta.label}</span>
+  </div>
+  <h1 class="font-serif text-3xl sm:text-4xl leading-tight mt-2 text-[var(--color-ink)]">{data.title}</h1>
+  <div class="mt-3 flex flex-wrap gap-x-6 gap-y-1 ui text-xs text-[var(--color-faint)]">
+    <span><span class="uppercase tracking-wider">Updated</span> {updated}</span>
+    {provenance.length > 0 && (
+      <span class="uppercase tracking-wider">
+        Reasoning: {provenance.map((p, i) => (<>{i > 0 && ', '}<a href={p} class="mono lowercase break-all">{p}</a></>))}
+      </span>
+    )}
+  </div>
+</header>
+
+<FramingNote framing={framing} />
+{isDerivation && <div class="mt-6"><DependsOn claim={claim} all={all} /></div>}
+
+<article class={`prose mt-7 ${isDerivation ? 'prose-derivation' : ''}`}><Content /></article>
+
+<RelationshipsFooter claims={[claim]} all={all} hideRestsOn={isDerivation} />

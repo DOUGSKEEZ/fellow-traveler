@@ -1,0 +1,30 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FramingNote from '../components/FramingNote.astro';
+import RelationshipsFooter from '../components/RelationshipsFooter.astro';
+import { getClaims, glyphFor, framingKey, type Claim } from '../lib/claims';
+
+const all = await getClaims();
+const claim = all.find((c) => c.data.slug === 'central-premise') as Claim;
+const { Content } = await render(claim);
+const g = glyphFor(claim);
+---
+
+<BaseLayout title={claim.data.title} narrow description={claim.data.summary}>
+  <header class="mb-6">
+    <p class="eyebrow mb-2">Orientation</p>
+    <div class="flex items-center gap-2.5">
+      <span class={`glyph-${g.key} text-2xl leading-none`} title="The thesis">{g.ch}</span>
+      <span class="eyebrow">The thesis</span>
+    </div>
+    <h1 class="font-serif text-3xl sm:text-4xl leading-tight mt-2 text-[var(--color-ink)]">{claim.data.title}</h1>
+  </header>
+
+  <FramingNote framing={framingKey(claim)} />
+
+  <!-- prose-flat: the central premise IS the overview, so it carries no "Overview" label. -->
+  <article class="prose prose-flat mt-7"><Content /></article>
+
+  <RelationshipsFooter claims={[claim]} all={all} />
+</BaseLayout>

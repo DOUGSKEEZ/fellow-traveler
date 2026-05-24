@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimCard from '../components/ClaimCard.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { getClaims, resolveDeps } from '../lib/claims';
+
+const all = await getClaims();
+// Forward-compatible: exploration-layer files compose here as a flat list; until then, a stub.
+const entries = all.filter((c) => c.data.layer === 'exploration').sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Explorations" narrow description="Parallel, aggressive reframings that run alongside the main chain — sandboxes, never load-bearing. (Planned section.)">
+  <header class="mb-8">
+    <p class="eyebrow mb-2">Program &amp; Frontiers</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Explorations</h1>
+  </header>
+
+  {entries.length === 0 ? (
+    <Placeholder
+      role="This section will hold parallel, aggressive reframings that run alongside the main chain — sandboxes, never load-bearing. Candidates include the inter-entity protocol (do exceptional people genuinely cluster, or is that survivorship plus homophily?), a Fermi-paradox-as-collider stab, and other speculative tracks."
+      note="Explorations are explicitly off to the side: nothing in the Framework is allowed to depend on them."
+    />
+  ) : (
+    <div class="flex flex-col gap-4">
+      {entries.map((c) => <ClaimCard claim={c} restsOn={resolveDeps(c, all)} />)}
+    </div>
+  )}
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import { href } from '../lib/site';
+import { STATUS_META, CLAIM_STATUS_ORDER } from '../lib/claims';
+---
+
+<footer class="border-t border-[var(--color-rule)] mt-16">
+  <div class="max-w-6xl mx-auto px-5 sm:px-8 py-8 ui text-sm text-[var(--color-muted)] flex flex-col gap-4">
+    <div class="flex flex-wrap gap-x-6 gap-y-1.5">
+      {CLAIM_STATUS_ORDER.map((s) => (
+        <span class="inline-flex items-center gap-1.5">
+          <span class={`glyph-${STATUS_META[s].key} text-base leading-none`}>{STATUS_META[s].glyph}</span>
+          <span>{STATUS_META[s].label}</span>
+        </span>
+      ))}
+      <span class="inline-flex items-center gap-1.5 text-[var(--color-faint)]">
+        <span class="mono">[ ref ]</span>
+        <span>Background</span>
+      </span>
+    </div>
+    <p class="max-w-prose leading-relaxed">
+      The status of every claim is rendered straight from its frontmatter and never promoted to
+      look more finished. Open gaps are marked as openly as derived results — the visible humility
+      is the point. <a href={href('/open-gaps')}>See the open gaps →</a>
+    </p>
+  </div>
+</footer>

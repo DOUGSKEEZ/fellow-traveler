@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { href } from '../lib/site';
+---
+
+<BaseLayout title="Technical Summary" narrow description="The whole theory compressed for someone who wants the spine fast. (Planned page.)">
+  <header class="mb-8">
+    <p class="eyebrow mb-2">Orientation</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Technical Summary</h1>
+  </header>
+  <Placeholder
+    role="This page will compress the whole theory for a reader who wants the spine fast: the premise, the three axioms, the demarcation, and the model in a few tight paragraphs."
+    note="Until it's written, the fastest structural overview is the derivation chain, and the fastest narrative one is the Guide."
+  />
+  <p class="ui text-sm text-[var(--color-muted)] mt-5">
+    In the meantime: <a href={href('/derivation-chain')}>the derivation chain</a> ·
+    <a href={href('/guide')}>the Guide</a>
+  </p>
+</BaseLayout>

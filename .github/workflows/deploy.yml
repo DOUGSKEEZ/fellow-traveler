@@ -1,0 +1,56 @@
+# GitHub Pages deployment — DORMANT BY DESIGN.
+#
+# This site is local-first. This workflow is committed so the deploy path is ready, but it does
+# NOT run on push. It triggers only manually (workflow_dispatch) from the Actions tab, and only
+# after the human enables Pages for the repo.
+#
+# To go live:
+#   1. Confirm the GitHub repo name and set `base` in astro.config.mjs to match it
+#      (`/<repo-name>` for a project page, or `/` for a <user>.github.io root site).
+#   2. In the repo: Settings → Pages → Build and deployment → Source = "GitHub Actions".
+#   3. (Optional) To auto-deploy on every push to main, uncomment the `push:` trigger below.
+#   4. Run this workflow once manually to confirm it's green.
+
+name: Deploy to GitHub Pages
+
+on:
+  workflow_dispatch: {}
+  # Uncomment to deploy automatically on push to the default branch:
+  # push:
+  #   branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress run.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

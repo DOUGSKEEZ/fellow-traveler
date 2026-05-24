@@ -1,0 +1,31 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimMarker from '../components/ClaimMarker.astro';
+import FramingNote from '../components/FramingNote.astro';
+import RelationshipsFooter from '../components/RelationshipsFooter.astro';
+import { getClaims, type Claim } from '../lib/claims';
+
+const all = await getClaims();
+const claim = all.find((c) => c.data.slug === 'research-program') as Claim;
+const { Content } = await render(claim);
+const data = claim.data;
+---
+
+<BaseLayout title={data.title} narrow description={data.summary}>
+  <header class="mb-8">
+    <p class="eyebrow mb-2">Program &amp; Frontiers</p>
+    <div class="flex items-center gap-2.5 flex-wrap">
+      <ClaimMarker claim={claim} />
+      <span class="eyebrow">Background / Reference</span>
+    </div>
+    <h1 class="font-serif text-3xl leading-tight mt-2 text-[var(--color-ink)]">{data.title}</h1>
+    <p class="mt-3 text-[1.05rem] leading-relaxed text-[var(--color-muted)]">{data.summary}</p>
+  </header>
+
+  <FramingNote framing="reference" />
+
+  <article class="prose prose-flat mt-7"><Content /></article>
+
+  <RelationshipsFooter claims={[claim]} all={all} />
+</BaseLayout>

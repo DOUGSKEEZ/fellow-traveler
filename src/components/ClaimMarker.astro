@@ -1,0 +1,30 @@
+---
+import type { Claim } from '../lib/claims';
+import { STATUS_META, showsGlyph } from '../lib/claims';
+
+interface Props {
+  claim: Claim;
+  withLabel?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+}
+const { claim, withLabel = false, size = 'md' } = Astro.props;
+const meta = STATUS_META[claim.data.status];
+const sizeClass = size === 'lg' ? 'text-2xl' : size === 'sm' ? 'text-sm' : 'text-lg';
+const glyph = showsGlyph(claim);
+---
+
+{glyph ? (
+  <span class="inline-flex items-center gap-1.5 whitespace-nowrap">
+    <span
+      class={`glyph-${meta.key} ${sizeClass} leading-none`}
+      title={`${meta.label} — ${meta.blurb}`}
+      aria-label={meta.label}
+    >{meta.glyph}</span>
+    {withLabel && <span class="ui text-xs uppercase tracking-wider text-[var(--color-faint)]">{meta.label}</span>}
+  </span>
+) : (
+  <span
+    class="ui inline-flex items-center text-[0.62rem] font-semibold uppercase tracking-wider text-[var(--color-faint)] border border-dashed border-[var(--color-rule-strong)] rounded px-1.5 py-0.5"
+    title="Background prior art — not a claim of this framework."
+  >Background</span>
+)}

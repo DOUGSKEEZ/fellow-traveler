@@ -1,0 +1,49 @@
+---
+import { claimUrl, resolveDeps, glyphFor, sectionOf, isThesis, STATUS_META, LAYER_META, isReference, type Claim } from '../lib/claims';
+
+interface Props {
+  claims: Claim[]; // already dependency-ordered (getChainClaims)
+  all: Claim[];
+}
+const { claims, all } = Astro.props;
+---
+
+<ol class="relative ml-3 border-l-2 border-[var(--color-rule-strong)] flex flex-col">
+  {claims.map((c) => {
+    const meta = STATUS_META[c.data.status];
+    const g = glyphFor(c);
+    const parents = resolveDeps(c, all);
+    return (
+      <li class="relative pl-7 pb-9 last:pb-0">
+        <span
+          class={`absolute -left-[0.72rem] top-0.5 grid place-items-center w-5 h-5 rounded-full bg-[var(--color-bg)] glyph-${g.key} text-base leading-none`}
+          title={isReference(c) ? 'Reference' : meta.label}
+        >{g.ch}</span>
+
+        <div class="flex items-baseline gap-2.5 flex-wrap">
+          <a href={claimUrl(c)} class="font-serif text-[1.12rem] leading-snug text-[var(--color-ink)] hover:text-[var(--color-accent)]">
+            {c.data.title}
+          </a>
+          <span class="ui text-[0.66rem] uppercase tracking-wider text-[var(--color-faint)]">
+            {isThesis(c) ? 'Thesis' : (sectionOf(c)?.label ?? LAYER_META[c.data.layer].label)}{!isReference(c) && !isThesis(c) && ` · ${meta.label}`}
+          </span>
+        </div>
+        <p class="ui text-sm text-[var(--color-muted)] mt-1.5 leading-relaxed max-w-2xl">{c.data.summary}</p>
+        {parents.length > 0 && (
+          <p class="ui text-xs text-[var(--color-faint)] mt-2">
+            <span class="uppercase tracking-wider">rests on</span>
+            {parents.map((p, i) => (
+              <>
+                {i > 0 && <span>,</span>}
+                <a href={claimUrl(p)} class="ml-1 text-[var(--color-muted)]">
+                  <span class={`glyph-${glyphFor(p).key}`}>{glyphFor(p).ch}</span>
+                  {' '}{p.data.title}
+                </a>
+              </>
+            ))}
+          </p>
+        )}
+      </li>
+    );
+  })}
+</ol>

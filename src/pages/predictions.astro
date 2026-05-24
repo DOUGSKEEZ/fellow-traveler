@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { href } from '../lib/site';
+---
+
+<BaseLayout title="Predictions" narrow description="Empirical tests the framework must pass — falsifiable predictions about un-selected co-effects. (Planned section.)">
+  <header class="mb-8">
+    <p class="eyebrow mb-2">Framework · Predictions</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Predictions</h1>
+  </header>
+  <Placeholder
+    role="This section will hold the empirical tests the framework must pass — its falsifiable predictions about un-selected co-effects (for instance, that the positive manifold should tighten among extreme performers, and that extreme ability should bundle with traits that g-research never selects on)."
+    note="A distinct epistemic type from Derivations: a derivation follows from the axioms by argument; a prediction is checked against data. They sit side by side, not nested, precisely to keep that distinction. The predictions sketched so far live inside the Research Program."
+  />
+  <p class="ui text-sm text-[var(--color-muted)] mt-5">
+    See the predictions named in the <a href={href('/research-program')}>Research Program</a>.
+  </p>
+</BaseLayout>

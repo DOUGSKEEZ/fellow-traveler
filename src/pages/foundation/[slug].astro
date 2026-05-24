@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ClaimPage from '../../components/ClaimPage.astro';
+import { getClaims, type Claim } from '../../lib/claims';
+
+export async function getStaticPaths() {
+  const all = await getClaims();
+  return all
+    .filter((c) => c.data.layer === 'axiom' && c.data.slug !== 'central-premise')
+    .map((claim) => ({ params: { slug: claim.data.slug }, props: { claim, all } }));
+}
+
+interface Props {
+  claim: Claim;
+  all: Claim[];
+}
+const { claim, all } = Astro.props;
+---
+
+<BaseLayout title={claim.data.title} narrow description={claim.data.summary}>
+  <ClaimPage claim={claim} all={all} />
+</BaseLayout>

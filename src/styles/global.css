@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+/* ===================================================================================
+   Fellow Traveler — academic theme.
+   Restrained, paper-like, legible for a domain expert. System font stacks only, so the
+   site renders correctly offline on the homelab with no external font fetch.
+   =================================================================================== */
+
+@theme {
+  --font-serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, Cambria, 'Times New Roman', serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  /* paper palette */
+  --color-bg: #fbfaf6;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f3f0e8;
+  --color-ink: #1c1b18;
+  --color-muted: #5f5d55;
+  --color-faint: #8b887e;
+  --color-rule: #e3dfd3;
+  --color-rule-strong: #cfcabb;
+  --color-accent: #3a5a78;
+  --color-accent-hover: #284560;
+
+  /* status colors — five-status rigor vocabulary (plus axiom, plus reference) */
+  --color-status-axiom: #a9772a;
+  --color-status-derived: #2e6b46;
+  --color-status-provisional: #b25f24;
+  --color-status-draft: #5f7596;
+  --color-status-stub: #9c958a;
+  --color-status-nonviable: #9c4a45;
+  --color-status-reference: #9a9486;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  html {
+    font-family: var(--font-serif);
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    margin: 0;
+  }
+  a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  ::selection {
+    background: #d9e3ec;
+  }
+}
+
+/* ---- status glyph colors ---- */
+.glyph-axiom { color: var(--color-status-axiom); }
+.glyph-derived { color: var(--color-status-derived); }
+.glyph-provisional { color: var(--color-status-provisional); }
+.glyph-draft { color: var(--color-status-draft); }
+.glyph-stub { color: var(--color-status-stub); }
+.glyph-nonviable { color: var(--color-status-nonviable); }
+.glyph-reference { color: var(--color-faint); }
+.glyph-thesis { color: var(--color-accent); }
+
+/* ===================================================================================
+   .prose — styling for the rendered Markdown body of a claim. The ONLY place long-form
+   theory text appears, and it always comes from content/*.md, never from a component.
+   =================================================================================== */
+.prose {
+  font-family: var(--font-serif);
+  font-size: 1.075rem;
+  line-height: 1.72;
+  color: var(--color-ink);
+  max-width: 70ch;
+}
+.prose > :first-child { margin-top: 0; }
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+.prose h1 { font-size: 1.9rem; margin: 0 0 0.6em; }
+.prose h2 {
+  font-size: 1.4rem;
+  margin: 1.9em 0 0.55em;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--color-rule);
+}
+.prose h3 { font-size: 1.15rem; margin: 1.6em 0 0.45em; }
+.prose h4 { font-size: 1.02rem; margin: 1.4em 0 0.4em; color: var(--color-muted); }
+.prose p { margin: 0 0 1.05em; }
+.prose ul, .prose ol { margin: 0 0 1.1em; padding-left: 1.4em; }
+.prose li { margin: 0.3em 0; }
+.prose li > ul, .prose li > ol { margin: 0.3em 0; }
+.prose strong { font-weight: 650; }
+.prose a { text-decoration: underline; text-underline-offset: 2px; text-decoration-color: #b8c6d3; }
+
+.prose blockquote {
+  margin: 1.3em 0;
+  padding: 0.4em 1.2em;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-surface-alt);
+  color: var(--color-ink);
+  font-style: italic;
+}
+.prose blockquote p { margin: 0.4em 0; }
+
+/* inline + block code */
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--color-surface-alt);
+  padding: 0.12em 0.38em;
+  border-radius: 4px;
+  border: 1px solid var(--color-rule);
+}
+/* The ASCII contrast diagram in filter-vs-pathway lives in a <pre>. Preserve it exactly. */
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  background: #faf7ef;
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule-strong);
+  border-radius: 8px;
+  padding: 1.1em 1.3em;
+  overflow-x: auto;
+  margin: 1.4em 0;
+}
+.prose pre code { background: none; border: none; padding: 0; font-size: inherit; }
+
+/* tables — the diagnostic battery in pathway-mixture-model is a wide table */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  margin: 1.4em 0;
+  display: block;
+  overflow-x: auto;
+}
+.prose th, .prose td {
+  border: 1px solid var(--color-rule);
+  padding: 0.45em 0.7em;
+  text-align: left;
+  vertical-align: top;
+}
+.prose th { background: var(--color-surface-alt); font-weight: 600; }
+.prose tbody tr:nth-child(even) { background: #fcfbf8; }
+
+.prose hr { border: none; border-top: 1px solid var(--color-rule); margin: 2em 0; }
+
+/* KaTeX: let display math scroll on narrow screens instead of overflowing */
+.prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.3em 0; }
+
+/* ---- Overview / detail split (injected by rehypeOverviewSplit) ---- */
+.prose .overview-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+  margin: 0 0 0.55em;
+}
+.prose .claim-overview {
+  font-size: 1.1rem;
+  color: var(--color-ink);
+}
+.prose .claim-overview > :last-child { margin-bottom: 0; }
+.prose .claim-detail {
+  margin-top: 1.9em;
+  padding-top: 1.7em;
+  border-top: 1px solid var(--color-rule);
+}
+.prose .claim-detail > :first-child { margin-top: 0; }
+
+/* Derivation pages: give the body's section headings a proof-step accent. */
+.prose-derivation .claim-detail h2 {
+  border-bottom: none;
+  padding-left: 0.7em;
+  border-left: 3px solid var(--color-status-derived);
+}
+
+/* prose-flat: suppress the Overview scaffold so content reads as continuous prose. Used where an
+   Overview makes no sense — the central premise (it IS the overview) and reference/background. */
+.prose-flat .overview-label { display: none; }
+.prose-flat .claim-overview { font-size: inherit; }
+.prose-flat .claim-detail { margin-top: 0; padding-top: 0; border-top: none; }
+.prose-flat .claim-detail > :first-child { margin-top: 1.9em; }
+
+/* ---- shared utility surfaces ---- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  border-radius: 10px;
+}
+.card-reference {
+  background: var(--color-surface-alt);
+  border: 1px dashed var(--color-rule-strong);
+}
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+.ui { font-family: var(--font-sans); }
+.mono { font-family: var(--font-mono); }

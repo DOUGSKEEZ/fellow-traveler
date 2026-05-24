@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimMarker from '../components/ClaimMarker.astro';
+import { href } from '../lib/site';
+import { getClaimMap, claimUrl, type Claim } from '../lib/claims';
+
+const map = await getClaimMap();
+
+// The reading order. The prose here is navigation ("begin here", "the wall") — never a restatement
+// of the theory. The description of each step is the claim's own `summary` from frontmatter, so the
+// argument always lives in content/, and this page only sequences it.
+const movements: { heading: string; lede: string; slugs: string[] }[] = [
+  {
+    heading: 'Begin with the premise',
+    lede: 'One idea the whole framework unfolds from. Read it first; everything after is a turn of this screw.',
+    slugs: ['central-premise'],
+  },
+  {
+    heading: 'The three axioms',
+    lede: 'Each sharpens the premise one further turn — from “extremes have few roads,” to “roads bundle traits,” to “so dependence hides in the tail.”',
+    slugs: ['axiom-pathways-not-coincidence', 'axiom-pathways-bundle', 'axiom-tail-localized-dependence'],
+  },
+  {
+    heading: 'The wall: a real collision vs. a selection artifact',
+    lede: 'The load-bearing distinction. Without it, the framework would be indistinguishable from “you conditioned on a collider and were surprised the sample looks correlated.” Read these two together.',
+    slugs: ['filter-vs-pathway', 'demarcation-principle'],
+  },
+  {
+    heading: 'The model',
+    lede: 'Where the words become a generative process you can simulate and, crucially, falsify — and which produces the demarcation test as a prediction rather than an assumption.',
+    slugs: ['pathway-mixture-model'],
+  },
+  {
+    heading: 'The program and the rent it pays',
+    lede: 'How the claim earns its keep: the investigative spine, the real-world test bed, and the predictions that could prove it wrong.',
+    slugs: ['research-program'],
+  },
+];
+
+function resolve(slugs: string[]): Claim[] {
+  return slugs.map((s) => map.get(s)).filter((c): c is Claim => !!c);
+}
+---
+
+<BaseLayout title="Guide" narrow>
+  <header class="mb-10">
+    <p class="eyebrow mb-2">Narrative entry point</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">The Guide</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      A reading order, premise to predictions. Each step links into a claim file and shows that
+      claim's own one-line summary — the argument lives there, this page only sequences it. Want the
+      structural view instead? <a href={href('/derivation-chain')}>See the derivation chain</a>.
+    </p>
+  </header>
+
+  <ol class="flex flex-col gap-10">
+    {movements.map((m, i) => (
+      <li>
+        <div class="flex items-baseline gap-3">
+          <span class="ui text-sm font-semibold text-[var(--color-faint)] tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+          <h2 class="font-serif text-2xl text-[var(--color-ink)]">{m.heading}</h2>
+        </div>
+        <p class="ui text-[0.95rem] text-[var(--color-muted)] mt-2 leading-relaxed">{m.lede}</p>
+        <ul class="mt-4 flex flex-col gap-2.5">
+          {resolve(m.slugs).map((c) => (
+            <li>
+              <a href={claimUrl(c)} class="card block p-4 hover:no-underline hover:border-[var(--color-rule-strong)] group">
+                <div class="flex items-start gap-3">
+                  <div class="pt-0.5"><ClaimMarker claim={c} /></div>
+                  <div>
+                    <span class="font-serif text-[1.02rem] text-[var(--color-ink)] group-hover:text-[var(--color-accent)]">{c.data.title}</span>
+                    <p class="ui text-sm text-[var(--color-muted)] mt-1 leading-relaxed">{c.data.summary}</p>
+                  </div>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ol>
+
+  <footer class="mt-12 pt-6 border-t border-[var(--color-rule)] ui text-sm text-[var(--color-muted)]">
+    From here: trace the structure on the <a href={href('/derivation-chain')}>derivation chain</a>, see
+    what's unfinished on the <a href={href('/open-gaps')}>open gaps</a> page, or read the
+    <a href={href('/reference')}>background primer</a> on the prior art FTH builds upon.
+  </footer>
+</BaseLayout>

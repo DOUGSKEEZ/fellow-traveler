@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimCard from '../components/ClaimCard.astro';
+import FramingNote from '../components/FramingNote.astro';
+import { getClaims, resolveDeps } from '../lib/claims';
+
+const all = await getClaims();
+// filter-vs-pathway (the two structures) then the demarcation principle (the falsifier), in order.
+const entries = all
+  .filter((c) => c.data.layer === 'demarcation')
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="Demarcation" narrow description="What separates a real Fellow Traveler collision from a Berkson selection artifact — the wall the whole framework rests on.">
+  <header class="mb-6">
+    <p class="eyebrow mb-2">Framework · Demarcation</p>
+    <h1 class="font-serif text-3xl text-[var(--color-ink)]">Demarcation</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      The load-bearing wall. Without it the framework would be indistinguishable from “you conditioned
+      on a collider and were surprised the sample looks correlated.” First the two structures, then the
+      line that tells them apart.
+    </p>
+  </header>
+
+  <FramingNote framing="demarcation" />
+
+  <div class="flex flex-col gap-4 mt-8">
+    {entries.map((c) => <ClaimCard claim={c} restsOn={resolveDeps(c, all)} />)}
+  </div>
+</BaseLayout>

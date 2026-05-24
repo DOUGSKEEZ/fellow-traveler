@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import 'katex/dist/katex.min.css';
+import SidebarNav from '../components/SidebarNav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, href } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Constrain main content width for prose-heavy pages. */
+  narrow?: boolean;
+}
+
+const { title, description = SITE.description, narrow = false } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.title}` : SITE.title;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" type="image/svg+xml" href={href('/favicon.svg')} />
+    <title>{fullTitle}</title>
+    <slot name="head" />
+  </head>
+  <body class="lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
+    <!-- Desktop: persistent sidebar -->
+    <aside class="hidden lg:block sticky top-0 h-screen overflow-y-auto border-r border-[var(--color-rule)] bg-[var(--color-surface)] px-5 py-7">
+      <SidebarNav />
+    </aside>
+
+    <div class="flex flex-col min-h-screen min-w-0">
+      <!-- Mobile: disclosure menu -->
+      <header class="lg:hidden border-b border-[var(--color-rule)] bg-[var(--color-surface)] sticky top-0 z-20">
+        <details class="group">
+          <summary class="flex items-center justify-between h-14 px-5 cursor-pointer list-none ui">
+            <span class="flex items-center gap-2 font-semibold text-[var(--color-ink)]">
+              <span class="text-[var(--color-accent)] text-lg leading-none">◆</span>
+              {SITE.title.replace('The ', '')}
+            </span>
+            <span class="text-[var(--color-muted)] text-sm group-open:hidden">Menu ▾</span>
+            <span class="text-[var(--color-muted)] text-sm hidden group-open:inline">Close ▴</span>
+          </summary>
+          <div class="px-5 py-5 border-t border-[var(--color-rule)] max-h-[80vh] overflow-y-auto">
+            <SidebarNav />
+          </div>
+        </details>
+      </header>
+
+      <main class={`flex-1 w-full mx-auto px-5 sm:px-8 ${narrow ? 'max-w-3xl' : 'max-w-5xl'} py-10`}>
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

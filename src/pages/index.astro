@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimCard from '../components/ClaimCard.astro';
+import { href } from '../lib/site';
+import { getClaims, getEpigram, claimUrl } from '../lib/claims';
+
+const all = await getClaims();
+const premise = all.find((c) => c.data.slug === 'central-premise');
+const axioms = all.filter((c) => c.data.layer === 'axiom' && c.data.slug !== 'central-premise');
+const filterVsPathway = all.find((c) => c.data.slug === 'filter-vs-pathway');
+const epigram = await getEpigram();
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="pt-4 pb-12 border-b border-[var(--color-rule)]">
+    <p class="eyebrow mb-3">An original statistical framework</p>
+    <h1 class="font-serif text-4xl sm:text-5xl leading-[1.08] tracking-tight text-[var(--color-ink)] max-w-3xl">
+      The Fellow Traveler Hypothesis
+    </h1>
+    {epigram && (
+      <blockquote class="mt-7 max-w-2xl">
+        <p class="font-serif text-xl sm:text-2xl italic leading-snug text-[var(--color-accent)]">“{epigram}”</p>
+        {filterVsPathway && (
+          <cite class="ui not-italic text-xs uppercase tracking-wider text-[var(--color-faint)] mt-2 block">
+            <a href={claimUrl(filterVsPathway)}>the demarcation, in one line</a>
+          </cite>
+        )}
+      </blockquote>
+    )}
+  </section>
+
+  <!-- The premise (teaser → its own page) -->
+  {premise && (
+    <section class="py-12 border-b border-[var(--color-rule)]">
+      <div class="grid grid-cols-1 lg:grid-cols-[13rem_minmax(0,1fr)] gap-8">
+        <p class="eyebrow">The premise</p>
+        <div>
+          <p class="font-serif text-xl sm:text-2xl leading-snug text-[var(--color-ink)]">{premise.data.summary}</p>
+          <a href={claimUrl(premise)} class="ui text-sm mt-4 inline-block">Read the Central Premise →</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- The three axioms -->
+  <section class="py-12 border-b border-[var(--color-rule)]">
+    <p class="eyebrow mb-1">The frozen commitments</p>
+    <h2 class="font-serif text-2xl text-[var(--color-ink)] mb-1">Three axioms</h2>
+    <p class="ui text-sm text-[var(--color-muted)] mb-6 max-w-2xl">
+      Everything else in the library is derived from, demarcated against, or honestly parked beneath these.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {axioms.map((c) => <ClaimCard claim={c} />)}
+    </div>
+  </section>
+
+  <!-- Two entry points, one per audience -->
+  <section class="py-12">
+    <p class="eyebrow mb-5">Two ways in</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <a href={href('/guide')} class="card p-6 block hover:no-underline hover:border-[var(--color-rule-strong)] group">
+        <h3 class="font-serif text-xl text-[var(--color-ink)] group-hover:text-[var(--color-accent)]">Read it as a story →</h3>
+        <p class="ui text-sm text-[var(--color-muted)] mt-2 leading-relaxed">
+          The Guide walks the argument premise → axioms → demarcation → model → predictions. Start here
+          if you want to understand the phenomenon.
+        </p>
+      </a>
+      <a href={href('/derivations')} class="card p-6 block hover:no-underline hover:border-[var(--color-rule-strong)] group">
+        <h3 class="font-serif text-xl text-[var(--color-ink)] group-hover:text-[var(--color-accent)]">Work on it →</h3>
+        <p class="ui text-sm text-[var(--color-muted)] mt-2 leading-relaxed">
+          The Derivations workbench lists each result as a discrete, status-marked research target. Start
+          here if you want to firm up, extend, or connect a claim.
+        </p>
+      </a>
+    </div>
+    <p class="ui text-sm text-[var(--color-muted)] mt-4">
+      Or trace the spine on the <a href={href('/derivation-chain')}>derivation chain</a>, and see what's
+      unfinished on the <a href={href('/open-gaps')}>open gaps</a> page.
+    </p>
+  </section>
+</BaseLayout>
