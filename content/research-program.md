@@ -104,7 +104,9 @@ These go beyond restating *g* and are demarcation-passing (they concern un-selec
 
 1. **Tail-tightening.** The positive manifold should be *stronger* among extreme performers than
    in the middle of the distribution — concordant tail dependence, not merely positive average
-   correlation.
+   correlation. (Operationalized as upper-tail dependence against a Gaussian-matched-ρ copula null
+   — *not* a within-group correlation, which range restriction and SLODR both attenuate; the
+   heavy-tail commitment this forces is owned in `prediction-positive-manifold`.)
 2. **Non-cognitive co-effects.** Extreme cognitive ability should bundle with traits that
    *g*-research does not select on — un-selected co-effects whose elevation is the signature of a
    real pathway rather than a measurement artifact.

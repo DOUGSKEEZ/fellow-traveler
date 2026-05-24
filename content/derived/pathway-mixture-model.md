@@ -47,6 +47,7 @@ an un-selected co-effect.
 - $\mu_x, \mu_y, \mu_w$ — **tail offsets**: how far up the trail climbs each axis.
 - $\operatorname{Var}(P)$ — pathway dispersion.
 - $\nu$ — **tail index** (if $P$ or $\varepsilon$ is Student-$t$): heaviness of the tail. $\nu\to\infty$ recovers the Gaussian limit.
+- $\mu_{w0},\ \beta_1,\ \sigma_{w0},\ \sigma_{w1}$ — **co-effect regime parameters** (used in Result 6, single-trait conditioning). The two regime means are distinct: the tail-offset $\mu_w$ above is the **pathway-regime** mean of $W$, whereas $\mu_{w0}$ is its **off-pathway** mean — and $\mu_{w0}=0$ in the pure model (where $W\perp X$ off-pathway), non-zero only if the co-effect also carries an all-regime pleiotropy channel. $\beta_1\ge 0$ is the within-pathway slope of $W$ on $X$; $\sigma_{w0},\sigma_{w1}$ are the within-regime SDs of $W$.
 
 ### Why it is the three axioms
 
@@ -117,6 +118,92 @@ $$\mathbb E[\,W \mid X,Y \text{ both extreme}\,] \;\gg\; \mathbb E[W].$$
 
 The un-selected co-effect is elevated, concordantly. This is the demarcation signature falling out
 of the model, not bolted on.
+
+## Result 6 — single-trait conditioning gives the co-effect's distributional *shape*
+
+Result 5 conditioned on the *joint* tail and reported one number: the co-effect's mean is lifted.
+But the demarcation test is run in practice by regressing a co-effect on a *single* observed trait
+across its whole range. So the operational quantity is the conditional law of $W$ given one trait
+$X=x$ — not just its mean but its variance and skew. All three fall out of one fact: **the posterior
+pathway-weight rises with $x$.**
+
+Write the responsibility (posterior probability of the pathway regime)
+
+$$w(x) \;=\; \mathbb P(Z=1 \mid X=x) \;=\; \frac{\pi\,f_1(x)}{\pi\,f_1(x) + (1-\pi)\,f_0(x)},$$
+
+with $f_0$ the bulk density of $X$ ($\mathcal N(0,1)$) and $f_1$ the pathway density
+($\mathcal N(\mu_x,\,a^2\operatorname{Var}(P)+\operatorname{Var}(\varepsilon_x))$, offset by $\mu_x>0$).
+Because the pathway is shifted up, the likelihood ratio $f_1(x)/f_0(x)$ is increasing in $x$, so
+$w(x)$ is a **rising sigmoid**: $w\to 0$ in the bulk (where $\pi$ is small and $f_0$ dominates),
+$w\to 1$ deep in the tail, with the transition centered where $\pi f_1(x)=(1-\pi)f_0(x)$.
+
+Within each regime $W$ is simple: $\mathbb E[W\mid Z=0]=\mu_{w0}$ (no $P$, so $W\perp X$), and within
+$Z=1$, $W$ and $X$ are jointly driven by $P$, giving $\mathbb E[W\mid Z=1,X=x]=\mu_w+\beta_1(x-\mu_x)$
+linear in $x$ with a gentle within-component slope $\beta_1\ge 0$. The observed conditional law of
+$W\mid X=x$ is then the $w(x)$-mixture of these two.
+
+### (a) Mean — convex onset, then saturation (not a global slope)
+
+$$\mathbb E[W\mid X=x] = \big(1-w(x)\big)\,\mu_{w0} \;+\; w(x)\,\big(\mu_w+\beta_1(x-\mu_x)\big).$$
+
+With the co-effect elevated on the pathway ($\mu_w>\mu_{w0}$), this is **flat at $\mu_{w0}$ in the
+bulk**, then climbs as $w(x)$ switches on — and the climb is *steeper than $\beta_1$* because the
+mixing weight is itself shifting, not merely the within-component mean. That excess steepness **is**
+the super-linear (convex) departure from the bulk extrapolation. Once $w(x)\to 1$ the weight can
+shift no further and the slope relaxes to $\beta_1$: the curve **saturates**. So the derived shape is
+sigmoidal — *convex onset in the upper range, concave past the transition midpoint* — which is
+exactly why the prediction commits to "upward super-linear departure with onset in the upper range"
+and **not** to a globally increasing slope (the latter is false at the pure-pathway extreme).
+
+*Flat-or-linear in the bulk.* The flatness above is the pure-PMM case, where $W$ carries **no**
+all-regime loading ($W\perp X$ off-pathway). If the chosen co-effect additionally shares a uniform,
+all-regime cause with $X$ — the realistic pleiotropy channel the rival posits — the bulk is **gently
+linear** rather than flat. Signatures (a)–(c) are unchanged in kind: they attach to the convex,
+heteroscedastic, skewed **departure from the bulk line**, which is why the prediction commits to a
+departure from the *bulk linear extrapolation*, not to flatness per se.
+
+### (b) Variance — a hump peaking at the mixing midpoint
+
+By the law of total variance over $Z$ at fixed $x$,
+
+$$\operatorname{Var}(W\mid X=x) = \underbrace{(1-w)\sigma_{w0}^2 + w\,\sigma_{w1}^2}_{\text{within-regime}} \;+\; \underbrace{w(x)\big(1-w(x)\big)\,\Delta(x)^2}_{\text{mixing term}},\qquad \Delta(x)=\mathbb E[W\mid Z{=}1,x]-\mu_{w0}.$$
+
+The mixing term is the signature: $w(1-w)$ is **zero at $w=0$ and $w=1$ and maximal at $w=\tfrac12$**,
+so conditional variance is pushed **above the within-regime level through the transition and peaks
+where the pathway responsibility passes $\approx\tfrac12$** — a hump, not a fixed ratio. A
+deterministic mean model ($w\in\{0,1\}$ everywhere, or no second component) has no mixing term and is
+homoscedastic. This is the derived basis for committing to "variance $>$ bulk and rising, plausibly
+hump-shaped" rather than a single number.
+
+### (c) Skew — positive through the transition
+
+In the transition the minority component is the elevated pathway bump sitting to the **right** of the
+bulk mass, so $W\mid X=x$ is a right-skewed two-component mixture: $\operatorname{Skew}(W\mid X=x)>0$,
+localized to the transition and returning to $\approx 0$ at either extreme (a single active
+component). Symmetric within-regime noise cannot produce this; it is the third derived sign.
+
+### (d) The shape rung — bimodality (what moments cannot reach)
+
+When the component means are separated by more than roughly twice the pooled within-regime SD and
+$w(x)$ is not too lopsided, $W\mid X=x$ is **visibly bimodal**. Bimodality is a property of the
+*density*, not of any finite moment, so it is the one signature a smooth (even heteroscedastic,
+skewed-noise) deterministic $W=f(X)+\text{noise}$ cannot fake. It is the strongest — and most
+data-hungry — discriminator, and the reason the co-effect test's true ceiling is a
+conditional-distribution comparison, not a moment comparison.
+
+### Why this is the operational bridge to the prediction
+
+Results 2–5 live on the *joint* tail; a tester only ever conditions on observed traits. Result 6 is
+the same fork viewed through single-trait conditioning, and it is what the positive-manifold
+prediction's form-level (Tier-1) commitments cite: map $X\to g$ (the selected cognitive trait) and
+$W\to T$ (the non-cognitive co-effect), and (a)–(c) are the three committed signs while (d) is the
+parked frontier. The rival generators (uniform/linear pleiotropy: $w$ constant or absent;
+deterministic nonlinear pleiotropy: $w\in\{0,1\}$) each kill one rung by predicting the opposite
+sign or a flat profile — which is what makes the signs falsifiable with no pre-registered magnitude.
+
+> The signs are **derived**, not assumed; their **magnitudes** depend on $\pi$, the loadings, and
+> the offsets and are therefore instrument/sample quantities, parked downstream. The *direction* is
+> the theory's; the *number* is the dataset's.
 
 ## The foil: a Berkson-collider generator
 
