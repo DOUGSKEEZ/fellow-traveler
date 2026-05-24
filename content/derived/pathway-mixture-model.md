@@ -6,7 +6,7 @@ status: provisional
 summary: A two-regime generative model that is near-independent in aggregate, collides concordantly at the tail, and produces the demarcation test as a derived prediction.
 depends_on: [axiom-pathways-not-coincidence, axiom-pathways-bundle, axiom-tail-localized-dependence, demarcation-principle, filter-vs-pathway]
 order: 1
-updated: 2026-05-22
+updated: 2026-05-24
 ---
 
 # The Pathway Mixture Model (PMM)
@@ -51,7 +51,7 @@ an un-selected co-effect.
 
 ### Why it is the three axioms
 
-- **Axiom 1** (extremes are reached by pathways): rarity $\pi$ + offset $\mu$ encode "few roads, far up."
+- **Axiom 1** (the *syndrome* is reached by pathways, not coincidence): rarity $\pi$ is the rare *syndrome-carrying* route — the bulk reaches the tail too, just uncorrelated — and offset $\mu$ is how far up it sits.
 - **Axiom 2** (pathways bundle): the shared $P$ with loadings $a,b,c$ *is* the bundling; $W$ shows it reaches a trait nobody selected on.
 - **Axiom 3** (tail-localized, concordant): dependence exists only in the rare $Z=1$ regime → independence in the bulk; $ab\operatorname{Var}(P)>0$ → concordant.
 
