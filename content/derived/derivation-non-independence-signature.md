@@ -6,7 +6,7 @@ status: derived
 summary: At the tail, an observed collision of exceptional individuals — two or more, sized- and contact-agnostic — refutes independence, which forces the dependence into one of three structures; the demarcation tests sort them, so the inversion licenses inter-entity FTH as a classification problem rather than a coincidence to explain — without adjudicating any single case.
 depends_on: [central-premise, demarcation-principle, filter-vs-pathway, pathway-mixture-model, research-program]
 order: 2
-updated: 2026-05-23
+updated: 2026-05-25
 ---
 
 # Derivation — Non-Independence Is the Signature
@@ -186,13 +186,45 @@ with it — the conditions make that dependence *explicit and locatable* (it liv
 which is the most the framework can honestly claim. The trichotomy is exhaustive relative to its
 stated assumptions, not absolutely.
 
-## Validity condition — see P0
+## Validity condition — P0, and the confound-distance it demands
 
 The ex-ante requirement is stated as Premise P0 above and is not a separable caveat: it is what
 makes step 1 well-defined, what prevents the look-elsewhere fallacy, and what the **inter-entity
-protocol** in the research program already enforces (specify the signature ex ante; search; verify;
-allow it to fail). All three are the one requirement — *the null must be pre-specified* — so this
-derivation inherits the protocol rather than adding a new guard.
+protocol** in the research program enforces (specify the signature ex ante; search; verify; allow it
+to fail). These collapse to one requirement — *the null must be pre-specified.*
+
+But "pre-specified" conceals a second demand, and the inversion's own gravity launders it away. The
+protocol says specify the signature *"without reference to the famous outcome"* — yet the analyst's
+sense of **which** co-effect to pre-register is trained on the very cases the theory wants to
+explain; the famous cohort whispers which dimension to "predict." A signature reverse-engineered
+from the motivating case and then "confirmed" on its neighbours is hindsight in a lab coat: the
+pre-registration is theatre if the hypothesis space was already pruned by the cases it claims not to
+use.
+
+> **The guard: evidential weight scales with distance in confound-space.** A confirmed signature is
+> evidence for the fork only to the degree the test instances are *distant from the motivating case
+> along every confound axis* — and those axes are exactly the two rival structures plus the
+> look-elsewhere channel P0 governs:
+>
+> - **Distance from contact-entanglement** — provable non-contact (the no-contact sharpening above,
+>   whose weight already "scales with how *provable* non-contact is").
+> - **Distance from covert-filter** — no gate shared with the motivating case, no inherited roster
+>   (the casualty test).
+> - **Distance from the look-elsewhere channel** — the co-effect specified *blind* to the test
+>   instances, not back-fit from them.
+>
+> Where all three are sealed the confirmation is strong; where any is merely *unobserved* — contact
+> not ruled out, a shared gate not excluded, a signature plausibly retrofitted — it is weak. This is
+> the same confirm-strong / disconfirm-weak asymmetry the co-effect and no-contact tests already
+> carry, now governing the **specification** rather than the structure.
+
+So the derivation does not merely *inherit* the protocol; it makes precise what the protocol's
+"without reference to the famous outcome" left binary, turning a yes/no box into a graded condition.
+This is also why the clean class is clean — and why the inversion is *useful, not merely true,* on
+the recurring-type, many-trials clusters P0 admits: **parallel independent discovery is maximally
+confound-distant on all three axes at once** — no contact (no entanglement), no application gate (no
+filter), and a co-effect specifiable without ever naming the discoverers. That triple distance is
+exactly what gives its un-selected co-effect prediction evidential teeth.
 
 ## What this earns, and what it does not
 
@@ -213,7 +245,9 @@ not an oversell that crowns every impressive room a pathway.
 The inversion (steps 1–3) is **derived** given Premise P0 — a deductive consequence of the
 pre-specified null plus the definition of independence; it needs no new empirical commitment, so it
 earns ●. The honesty is in P0: the result holds for clusters with a pre-specified null and is silent
-(not false) elsewhere. The classification's *exhaustiveness* is conditionally proven under the three
+(not false) elsewhere — and the *evidential* use of any confirmed signature is graded by its
+distance in confound-space, never binary (see the validity condition). The classification's
+*exhaustiveness* is conditionally proven under the three
 stated conditions, explicitly containing Reichenbach's load rather than discharging it. The
 *application* to any real cluster is **not** part of this derivation — it is gated by the inter-entity
 protocol and lives in the applications layer. The ● is over the *structural theorem* (refuted
