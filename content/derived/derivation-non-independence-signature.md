@@ -143,7 +143,10 @@ The two existing tests, lifted to population scale, separate all three:
   individuals who **demonstrably never met** — same generative moment, same syndrome, different
   rooms. Parallel independent discovery (the same advance reached at once by people with no contact)
   is the canonical clean case; the gathered cohort (the "mafia") is the canonical contaminated one,
-  because it maximizes both entanglement and covert-filter at once. **The weight this test carries
+  because it maximizes both entanglement and covert-filter at once. Parallel discovery is not an
+  isolated anecdote but a documented recurring class — Merton's "multiples" (1961) — and that
+  recurrence is exactly what supplies the many-trials null P0 admits, marking it off from a single
+  post-hoc spot. **The weight this test carries
   scales with how *provable* non-contact is.** Where timelines and geography seal it (sealed
   parallel discovery), it is decisive. Where contact is merely *not observed*, it is weak — absence
   of evidence of contact is not evidence of absence, the same confirm-strong/disconfirm-weak
