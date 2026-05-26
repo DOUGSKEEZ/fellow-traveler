@@ -6,7 +6,7 @@ status: provisional
 summary: The investigative spine — trace the collisions, then describe their generative model, with "why" tabled — anchored in latent-factor recovery and the positive manifold.
 depends_on: [demarcation-principle, filter-vs-pathway, axiom-tail-localized-dependence]
 order: 1
-updated: 2026-05-22
+updated: 2026-05-25
 ---
 
 # Research Program — Tracing the Collisions
@@ -118,14 +118,20 @@ Both are hypotheses to be tested, not established results.
 An inter-entity collision (a "scene" or "mafia") counts as evidence for FT only if it clears all
 four steps — failure permitted and reported at each:
 
-1. Specify the pathway signature **ex ante**, without reference to the famous outcome.
+1. Specify the pathway signature **ex ante** — and not merely "without reference to the famous
+   outcome" but at a *measurable distance* from it. The signature's evidential weight scales with
+   its **distance in confound-space** from the motivating case: provable non-contact, no shared
+   gate, and a co-effect specified *blind* to the test instances. A signature back-fit from the
+   famous cohort and "confirmed" on its neighbours is laundered hindsight. The graded form is made
+   precise in `derivation-non-independence-signature`.
 2. Search for candidate clusters matching the signature.
 3. Verify whether those clusters actually share the syndrome.
 4. Allow the prediction to **fail** — the signature must sometimes pick clusters that do not pan
    out, or the claim is unfalsifiable.
 
 This is the inter-entity form of the co-effect test: a real pathway predicts *further, unsung*
-clusters, not just the famous one we started from.
+clusters, not just the famous one we started from — and the further those clusters sit from the
+original in confound-space, the more their confirmation counts.
 
 ## How this spawns claim files
 
