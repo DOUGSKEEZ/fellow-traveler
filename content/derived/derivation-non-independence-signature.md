@@ -3,7 +3,7 @@ title: Derivation — Non-Independence Is the Signature (the Inter-Entity Invers
 slug: derivation-non-independence-signature
 layer: derived
 status: derived
-summary: At the tail, an observed collision of exceptional individuals — two or more, sized- and contact-agnostic — refutes independence, which forces the dependence into one of three structures; the demarcation tests sort them, so the inversion licenses inter-entity FTH as a classification problem rather than a coincidence to explain — without adjudicating any single case.
+summary: At the tail, an observed collision of exceptional individuals — two or more, sized- and contact-agnostic — refutes independence, which (given Reichenbach's common-cause principle) forces the dependence into one of three structures; the demarcation tests sort them, so the inversion licenses inter-entity FTH as a classification problem rather than a coincidence to explain — without adjudicating any single case.
 depends_on: [central-premise, demarcation-principle, filter-vs-pathway, pathway-mixture-model, research-program]
 order: 2
 updated: 2026-05-25
@@ -25,12 +25,16 @@ shape, and the right shape is one the framework is already built to answer.
 > deprecation matters here because the cleanest cases are *pairs* (parallel discovery) and
 > *distributed* sets, which "cluster" actively mis-describes.
 
-> **This derivation is the *candidate* licensing half of a matched pair.** The Central Premise (the
-> thesis) may eventually assert FTH at the inter-entity scale. It must not do so until this
-> derivation earns the right — and this derivation has not yet been stress-tested to a stable ●.
-> It licenses the premise's elevation *only if it stands*. The order is deliberate: the foundation
-> waits on the argument, not the reverse. A reader who finds the premise claiming inter-entity scope
-> should find *this* file, surviving, underneath it.
+> **This derivation is the licensing half of a matched pair, and the license has now been drawn.**
+> The Central Premise asserts FTH at the inter-entity scale — but only as far as this derivation
+> stands, and this derivation stands over the *mechanism*, never a *verdict*. So the premise may
+> assert that the upstream fork is real and is the same mechanism as the intra-entity manifold, and
+> may route an inter-entity collision through the demarcation; it may **not** crown any particular
+> collision a pathway by the collision alone — that is precisely the confound-laundering the guard
+> below forbids. The order remains deliberate: the premise's inter-entity reach rests on this
+> argument surviving, not the reverse. A reader who finds the premise claiming inter-entity scope
+> should find *this* file, surviving, underneath it — and should find the premise sorting every
+> actual collision, never crowning one.
 
 ## The inversion
 
