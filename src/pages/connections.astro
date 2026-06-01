@@ -1,18 +1,37 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ClaimCard from '../components/ClaimCard.astro';
 import Placeholder from '../components/Placeholder.astro';
 import { href } from '../lib/site';
+import { getClaims, getConnections, resolveDeps } from '../lib/claims';
+
+const all = await getClaims();
+const connections = getConnections(all);
 ---
 
-<BaseLayout title="Connections" narrow description="How the framework's claims connect to established statistics — the explicit bridges to prior art. (Planned section.)">
+<BaseLayout title="Connections" narrow description="Expository through-lines: how the framework ties its own scales together, and the explicit bridges to established statistics.">
   <header class="mb-8">
     <p class="eyebrow mb-2">Framework · Connections</p>
     <h1 class="font-serif text-3xl text-[var(--color-ink)]">Connections</h1>
+    <p class="ui text-[var(--color-muted)] mt-2 leading-relaxed">
+      Expository pieces, neither derived nor predicted: a Connection states a through-line that ties
+      the framework's own claims together across scales, or a bridge to established statistics — how
+      FTH relates to, and departs from, prior art. Distinct from the <a href={href('/reference')}>Reference</a>
+      primer, which explains the prior art as background; a Connection is a claim about the relationship.
+    </p>
   </header>
-  <Placeholder
-    role="This section will map the framework's claims onto established statistics — the explicit bridges to Berkson's paradox and collider bias, to copulas and tail dependence, and to the positive manifold and g."
-    note="Distinct from the Reference primer: the primer explains the prior art as background; a Connection is a claim about how FTH relates to and departs from it. Until these are written, the background itself is on the Reference page."
-  />
+
+  {connections.length === 0 ? (
+    <Placeholder
+      role="This section will map the framework's through-lines and its bridges to established statistics — the one-mechanism/two-scales unification, and the ties to Berkson's paradox, copulas and tail dependence, and the positive manifold and g."
+      note="Until these are written, the background itself is on the Reference page."
+    />
+  ) : (
+    <div class="flex flex-col gap-4">
+      {connections.map((c) => <ClaimCard claim={c} restsOn={resolveDeps(c, all)} />)}
+    </div>
+  )}
+
   <p class="ui text-sm text-[var(--color-muted)] mt-5">
     See the background prior art on the <a href={href('/reference')}>Reference &amp; Primer</a> page.
   </p>

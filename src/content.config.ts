@@ -19,6 +19,7 @@ const LAYERS = [
   'derived',
   'provisional',
   'prediction',
+  'connection',
   'open-gap',
   'application',
   'perspective',

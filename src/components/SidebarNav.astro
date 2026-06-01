@@ -1,6 +1,6 @@
 ---
 import { href, SITE } from '../lib/site';
-import { getClaims, getDerivationUnits, getPredictions, glyphFor, type Claim } from '../lib/claims';
+import { getClaims, getDerivationUnits, getPredictions, getConnections, glyphFor, type Claim } from '../lib/claims';
 
 type Item = { label: string; path: string; anchor?: boolean; glyph?: { ch: string; key: string } };
 type Sub = { heading: string; headingPath?: string; items: Item[] };
@@ -16,6 +16,7 @@ const foundations = all
 const demarcation = all.filter((c) => c.data.layer === 'demarcation').sort((a, b) => a.data.order - b.data.order);
 const derivations = getDerivationUnits(all);
 const predictions = getPredictions(all);
+const connections = getConnections(all);
 const domains = all.filter((c) => c.data.layer === 'application').sort((a, b) => a.data.order - b.data.order);
 
 const groups: Group[] = [
@@ -47,7 +48,7 @@ const groups: Group[] = [
       { heading: 'Demarcation', headingPath: '/demarcation', items: entryItems(demarcation, (c) => `/demarcation/${c.data.slug}`) },
       { heading: 'Derivations', headingPath: '/derivations', items: entryItems(derivations, (c) => `/derivations/${c.data.slug}`) },
       { heading: 'Predictions', headingPath: '/predictions', items: entryItems(predictions, (c) => `/predictions/${c.data.slug}`) },
-      { heading: 'Connections', headingPath: '/connections', items: [] },
+      { heading: 'Connections', headingPath: '/connections', items: entryItems(connections, (c) => `/connections/${c.data.slug}`) },
     ],
   },
   {

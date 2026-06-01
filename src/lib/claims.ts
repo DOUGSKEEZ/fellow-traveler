@@ -39,11 +39,12 @@ export const LAYER_META: Record<Layer, { label: string; blurb: string; order: nu
   derived: { label: 'Derived', order: 2, blurb: 'Propositions that follow from the axioms by an explicit argument.' },
   provisional: { label: 'Provisional', order: 3, blurb: 'Plausible and motivated results not yet made rigorous.' },
   prediction: { label: 'Predictions', order: 4, blurb: 'Empirical tests the framework must pass — falsifiable, checked against data, never proven.' },
-  'open-gap': { label: 'Open Gaps', order: 5, blurb: 'Acknowledged unknowns, parked honestly.' },
-  application: { label: 'Applications', order: 6, blurb: 'Hiring, matchmaking, VC, logistics, medical diagnosis.' },
-  perspective: { label: 'Perspectives', order: 7, blurb: 'Essays and wider applications.' },
-  exploration: { label: 'Explorations', order: 8, blurb: 'Parallel, aggressive reframings that run alongside the main chain. Never load-bearing.' },
-  reference: { label: 'Reference', order: 9, blurb: 'Background prior art FTH borrows. Subordinate to the claims, never a peer of them.' },
+  connection: { label: 'Connections', order: 5, blurb: 'Expository through-lines: how the framework ties its own scales together, and where it meets and departs from established statistics.' },
+  'open-gap': { label: 'Open Gaps', order: 6, blurb: 'Acknowledged unknowns, parked honestly.' },
+  application: { label: 'Applications', order: 7, blurb: 'Hiring, matchmaking, VC, logistics, medical diagnosis.' },
+  perspective: { label: 'Perspectives', order: 8, blurb: 'Essays and wider applications.' },
+  exploration: { label: 'Explorations', order: 9, blurb: 'Parallel, aggressive reframings that run alongside the main chain. Never load-bearing.' },
+  reference: { label: 'Reference', order: 10, blurb: 'Background prior art FTH borrows. Subordinate to the claims, never a peer of them.' },
 };
 
 /* ----------------------------------------------------------- type framing ----- */
@@ -91,6 +92,7 @@ export function framingKey(claim: Claim): keyof typeof TYPE_FRAMING {
     case 'derived':
     case 'provisional': return 'derivation';
     case 'prediction': return 'prediction';
+    case 'connection': return 'connection';
     case 'application': return 'connection';
     case 'reference': return 'reference';
     default: return 'reference';
@@ -107,6 +109,7 @@ export const SECTION_META = {
   demarcation: { label: 'Demarcation', path: '/demarcation' },
   derivations: { label: 'Derivations', path: '/derivations' },
   predictions: { label: 'Predictions', path: '/predictions' },
+  connections: { label: 'Connections', path: '/connections' },
 } as const;
 export type SectionId = keyof typeof SECTION_META;
 export type Section = (typeof SECTION_META)[SectionId];
@@ -120,6 +123,7 @@ export function sectionOf(claim: Claim): Section | null {
     case 'derived':
     case 'provisional': return SECTION_META.derivations;
     case 'prediction': return SECTION_META.predictions;
+    case 'connection': return SECTION_META.connections;
     default: return null;
   }
 }
@@ -269,6 +273,21 @@ export function getPredictions(all: Claim[]): Claim[] {
   const depth = computeDepths(all);
   return all
     .filter((c) => c.data.layer === 'prediction')
+    .sort(
+      (a, b) =>
+        (depth.get(a.data.slug) ?? 0) - (depth.get(b.data.slug) ?? 0) || a.data.order - b.data.order,
+    );
+}
+
+/**
+ * The connections: every `connection`-LAYER claim. An *expository* type — neither derived nor
+ * predicted. It states a through-line that ties the framework's own scales together, or a bridge to
+ * established statistics. Dependency-ordered, same as the workbench and predictions.
+ */
+export function getConnections(all: Claim[]): Claim[] {
+  const depth = computeDepths(all);
+  return all
+    .filter((c) => c.data.layer === 'connection')
     .sort(
       (a, b) =>
         (depth.get(a.data.slug) ?? 0) - (depth.get(b.data.slug) ?? 0) || a.data.order - b.data.order,
