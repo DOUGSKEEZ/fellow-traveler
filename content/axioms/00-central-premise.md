@@ -20,9 +20,9 @@ What cannot be faked is the *collision*. Watch for several unrelated extremes co
 *together* — many at once in the same individual, or the same rare combination recurring across
 individuals who never met and never coordinated. Traits uncorrelated everywhere on the plain do
 not keep arriving extreme together, and independent winners do not keep lining up, by chance: two
-unrelated rarities exceed the product of their rates only when something is producing them. The
+unrelated rarities exceed the product of their rates only when something connects them. The
 collision is the tell. These are not independent draws; one cause is wearing several faces —
-across the traits of a single person, or across people who share an origin but not a room.
+across the traits of a single person, or across people who never shared a room.
 
 But a collision is still only a *surface*, and more than one machine stamps out the same surface.
 A **filter** that screened for those traits — or a gate that gathered those individuals — piles
@@ -32,7 +32,9 @@ can: a real pathway lifts an **un-selected co-effect** — some further trait no
 carried up with the rest — that surfaces even among travelers who *demonstrably never met*, and it
 leaves no roster of the rejected. A filter leaves only the traits it selected on and a list of who
 failed; influence leaves only what contact could carry. This premise asserts the pathway, at both
-scales; the demarcation is the instrument that earns it.
+scales; the demarcation is the instrument that earns it — and only in one direction: a co-effect
+that surfaces confirms the pathway, but its absence acquits nothing, since the thin tail can hide a
+real one as easily as lack it.
 
 ## The picture to hold
 
