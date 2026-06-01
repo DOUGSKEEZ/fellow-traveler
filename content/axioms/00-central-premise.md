@@ -41,12 +41,12 @@ real one as easily as lack it.
 Hold one image: a single source throwing off a whole bundle at once — arrows pointing *out*. In
 the bulk nothing has fired, and any two traits drift independently. But when a loaded source does
 fire, it emits the entire syndrome together, into whatever lies downstream of it — the many traits
-of a single person, or many separate people who never meet and never coordinate. So when you pull
-on one output and find it at an extreme, you have not caught a lone rarity that happened to land
-high. You have caught the source in the act: it fired, and it never fires one output alone — the
-other extremes are already on their way. And because only a narrow, loaded source can throw
-anything all the way to the tail, a single extreme is very nearly a signed confession that the
-rest of the bundle is present.
+of a single person, or many separate people who never meet and never coordinate. A single extreme,
+taken alone, still tells you almost nothing: most things that reach a tail got there the ordinary
+way — a lone draw that happened to land high and carries nothing else. What an ordinary draw cannot
+do is bring the rest of the bundle with it. So when several of the source's outputs reach the
+extreme *together*, you have caught it in the act — the bundle is the confession a lone extreme can
+never be, the one thing only a loaded source produces.
 
 A **filter** is the same diagram with every arrow reversed. Nothing is emitted; a gate *admits* —
 keeping only what already cleared it and turning away the rest. Its survivors share exactly the
